@@ -20,14 +20,14 @@ class JogoResponseSchema(Schema):
     Empresa_Proprietaria_id = fields.Int()
 class JogoRequestSchema(Schema):
     id = fields.Int()
-    Titulo = fields.Str()
-    Descricao = fields.Str()
-    Genero =  fields.Str()
-    Data_de_lancamento =fields.Date()
-    Empresa_Proprietaria_id = fields.Int()
+    titulo = fields.Str()
+    descricao = fields.Str()
+    genero =  fields.Str()
+    data_de_lancamento =fields.Date()
+    empresa_proprietaria_id = fields.Int()
 
     
-    @validates("Titulo")
+    @validates("titulo")
     def validate_name(self, value):
         if not re.match(pattern=r"^[a-zA-Z0-9_]+$", string=value):
             raise ValidationError(

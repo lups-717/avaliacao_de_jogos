@@ -2,8 +2,9 @@ from src.model.Desenvolvedora import Desenvolvedora
 import sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
 from src.model.Base import db
-def add_Desenvolvedora(id: int, Nome: str, Pais_de_origem: str, Especialidade: str) -> Desenvolvedora:
-    desenvolvedora = Desenvolvedora(id=id, Nome = Nome, Pais_de_origem = Pais_de_origem, Especialidade = Especialidade)
+def add_Desenvolvedora(id: int, nome: str, pais_de_origem: str, especialidade: str) -> Desenvolvedora:
+    print(nome)
+    desenvolvedora = Desenvolvedora(id=id, Nome = nome, Pais_de_origem = pais_de_origem, Especialidade = especialidade)
     with db.session.begin():
         db.session.add(desenvolvedora)
     return desenvolvedora
@@ -32,15 +33,15 @@ def delete_desenvolvedora(id: int):
     db.session.delete(desenvolvedora)
     db.session.commit()
 
-def update_desenvolvedora(id: int, Nome: str, Pais_de_origem: str, Especialidade: str) -> Desenvolvedora:
+def update_desenvolvedora(id: int, nome: str, pais_de_origem: str, especialidade: str) -> Desenvolvedora:
     """
     Insert a Funcionario in the database.
     """
     desenvolvedora = db.session.query(Desenvolvedora).get(id)
     
-    desenvolvedora.Nome = Nome
-    desenvolvedora.Pais_de_origem = Pais_de_origem
-    desenvolvedora.Especialidade = Especialidade
+    desenvolvedora.Nome = nome
+    desenvolvedora.Pais_de_origem = pais_de_origem
+    desenvolvedora.Especialidade = especialidade
 
     db.session.commit()
 

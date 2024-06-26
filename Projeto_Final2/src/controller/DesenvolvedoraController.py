@@ -19,11 +19,11 @@ class DesenvolvedoraResponseSchema(Schema):
 
 class DesenvolvedoraRequestSchema(Schema):
     id = fields.Int()
-    Nome = fields.Str()
-    Pais_de_origem = fields.Str()
-    Especialidade = fields.Str()
+    nome = fields.Str()
+    pais_de_origem = fields.Str()
+    especialidade = fields.Str()
     
-    @validates("Nome")
+    @validates("nome")
     def validate_name(self, value):
         if not re.match(pattern=r"^[a-zA-Z0-9_]+$", string=value):
              raise ValidationError(
@@ -50,7 +50,7 @@ class DesenvolvedoraItem(MethodResource, Resource):
         except (OperationalError, IntegrityError):
             abort(500, message="Internal Server Error")
 
-    @use_kwargs(DesenvolvedoraRequestSchema, location=("form"))
+    @use_kwargs(DesenvolvedoraRequestSchema, location=("json"))
     @marshal_with(DesenvolvedoraResponseSchema)
     def put(self, desenvolvedora_id, **kwargs):
         try:
@@ -74,7 +74,7 @@ class DesenvolvedoraLista(MethodResource, Resource):
         except OperationalError:
             abort(500, message="Internal Server Error")
 
-    @use_kwargs(DesenvolvedoraRequestSchema, location=("form"))
+    @use_kwargs(DesenvolvedoraRequestSchema, location=("json"))
     @marshal_with(DesenvolvedoraResponseSchema)
     def post(self, **kwargs):
         try:

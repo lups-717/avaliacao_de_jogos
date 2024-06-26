@@ -6,7 +6,7 @@ from src.model.Base import db
 
 def add_usuario(id: int, nome: str, email: str, senha: str) -> Usuario:
     """Insert a usuario in the database."""
-    usuario = Usuario(id=id, nome=nome, email=email, senha=senha)
+    usuario = Usuario(id=id, Nome=nome, Email=email, Senha=senha)
     with db.session.begin():
         db.session.add(usuario)
     return usuario
@@ -31,7 +31,8 @@ def update_usuario(id: int, nome: str, email: str, senha: str) -> Usuario:
     with db.session.begin():
         usuario = db.session.query(Usuario).get(id)
         if usuario:
-            usuario.nome = nome
-            usuario.email = email
-            usuario.senha = senha
+            usuario.Nome = nome
+            usuario.Email = email
+            usuario.Senha = senha
+        
     return usuario

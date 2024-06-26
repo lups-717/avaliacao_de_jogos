@@ -21,14 +21,14 @@ class UsuarioResponseSchema(Schema):
 # Esquema de solicitação do usuário
 class UsuarioRequestSchema(Schema):
     id = fields.Int()
-    Nome = fields.Str(required=True)
-    Email = fields.Str(required=True)
-    Senha = fields.Str(required=True)
+    nome = fields.Str(required=True)
+    email = fields.Str(required=True)
+    senha = fields.Str(required=True)
 
-    @validates("")
-    def validate_email(self, value):
-        if not re.match(pattern=r"^[a-zA-Z0-9_]+$", string=value):
-            raise ValidationError("Value must contain only alphanumeric and underscore characters.")
+    # @validates("Email")
+    # def validate_email(self, value):
+    #     if not re.match(pattern=r"^[a-zA-Z0-9_]+$", string=value):
+    #         raise ValidationError("Value must contain only alphanumeric and underscore characters.")
 
 # Recurso de item do usuário
 class UsuarioItem(MethodResource, Resource):
@@ -77,6 +77,17 @@ class UsuarioLista(MethodResource, Resource):
         except OperationalError:
             abort(500, message="Internal Server Error")
 
+    @use_kwargs(UsuarioRequestSchema, location="json")
+    @marshal_with(UsuarioResponseSchema)
+    def post(self, **kwargs):
+            try:
+                usuario = add_usuario(**kwargs)
+                return usuario, 201
+            except IntegrityError as err:
+                abort(500, message=str(err.__context__))
+            except OperationalError as err:
+                abort(500, message=str(err.__context__))
+
 
 '''
 class UsuarioLista(MethodResource, Resource):
@@ -87,10 +98,3 @@ class UsuarioLista(MethodResource, Resource):
         except OperationalError:
             abort(500, message="Internal Server Error")
 '''
-def post(self):
-        data = request.get_json()
-        try:
-            usuario = add_usuario(**data)
-            return jsonify(usuario), 201
-        except Exception as e:
-            abort(500, message=str(e))

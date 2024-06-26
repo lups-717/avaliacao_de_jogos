@@ -20,10 +20,10 @@ class AvaliacaoResponseSchema(Schema):
 
 class AvaliacaoRequestSchema(Schema):
     id = fields.Int()
-    Pontuacao = fields.Float()
-    Comentario= fields.Str()
-    Jogo_id = fields.Int()
-    Usuario_id = fields.Int()
+    pontuacao = fields.Float()
+    comentario= fields.Str()
+    jogo_id = fields.Int()
+    usuario_id = fields.Int()
     
     # @validates("Nome")
     # def validate_name(self, value):
@@ -34,9 +34,9 @@ class AvaliacaoRequestSchema(Schema):
         
 class AvaliacaoItem(MethodResource, Resource):
     @marshal_with(AvaliacaoResponseSchema)
-    def get(self, avalicao_id):
+    def get(self, avaliacao_id):
         try:
-            avaliacao = get_avaliacao(avalicao_id)
+            avaliacao = get_avaliacao(avaliacao_id)
             if not avaliacao:
                 abort(404, message="Resource not found")
             return avaliacao, 200
@@ -52,7 +52,7 @@ class AvaliacaoItem(MethodResource, Resource):
         except (OperationalError, IntegrityError):
             abort(500, message="Internal Server Error")
 
-    @use_kwargs(AvaliacaoRequestSchema, location=("form"))
+    @use_kwargs(AvaliacaoRequestSchema, location=("json"))
     @marshal_with(AvaliacaoResponseSchema)
     def put(self, avaliacao_id, **kwargs):
         try:

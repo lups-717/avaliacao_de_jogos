@@ -53,7 +53,7 @@ class JogoItem(MethodResource, Resource):
         except (OperationalError, IntegrityError):
             abort(500, message="Internal Server Error")
 
-    @use_kwargs(JogoRequestSchema, location=("form"))
+    @use_kwargs(JogoRequestSchema, location=("json"))
     @marshal_with(JogoResponseSchema)
     def put(self, jogo_id, **kwargs):
         try:
@@ -75,7 +75,7 @@ class JogoLista(MethodResource, Resource):
         except OperationalError:
             abort(500, message="Internal Server Error")
 
-    @use_kwargs(JogoResponseSchema, location=("form"))
+    @use_kwargs(JogoRequestSchema, location=("json"))
     @marshal_with(JogoResponseSchema)
     def post(self, **kwargs):
         try:

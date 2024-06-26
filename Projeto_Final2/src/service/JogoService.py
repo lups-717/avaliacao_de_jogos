@@ -1,8 +1,9 @@
+from sqlalchemy.types import Date
 from src.model.Jogo import Jogo
 from src.repositories.JogoRepository import add_jogo
 
-def addJogo(id: int, Título: str, Descricao: str, Genero:str,Data_lancamento ) -> Jogo:
-    if(id is None or id == '' or Título is None or Título == ''):
+def addJogo(id: int, titulo: str, descricao: str, genero:str, data_de_lancamento: Date, empresa_proprietaria_id: int) -> Jogo:
+    if(id is None or id == '' or titulo is None or titulo == ''):
         raise Exception
     
-    return add_jogo(id, Título, Descricao, Genero, Data_lancamento)
+    return add_jogo(id, titulo, descricao, genero, data_de_lancamento, empresa_proprietaria_id)

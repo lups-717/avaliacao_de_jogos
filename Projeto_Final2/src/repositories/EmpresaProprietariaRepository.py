@@ -3,8 +3,8 @@ import sqlalchemy
 from flask_sqlalchemy import SQLAlchemy
 from src.model.Base import db
 
-def add_EmpresaProprietaria(id: int, Nome: str, Descricao: str, Desenvolvedora_id: int) -> EmpresaProprietaria:
-    empresa = EmpresaProprietaria(id=id, Nome=Nome, Descricao=Descricao, Desenvolvedora_id=Desenvolvedora_id)
+def add_EmpresaProprietaria(id: int, nome: str, descricao: str, desenvolvedora_id: int) -> EmpresaProprietaria:
+    empresa = EmpresaProprietaria(id=id, Nome=nome, Descricao=descricao, Desenvolvedora_id=desenvolvedora_id)
     with db.session.begin():
         db.session.add(empresa)
     return empresa
@@ -38,15 +38,15 @@ def delete_empresa(id: int):
     db.session.delete(empresa)
     db.session.commit()
 
-def update_empresa(id: int, Nome: str, Descricao: str, Desenvolvedora_id: int) -> EmpresaProprietaria:
+def update_empresa(id: int, nome: str, descricao: str, desenvolvedora_id: int) -> EmpresaProprietaria:
     """
     Insert a Funcionario in the database.
     """
     empresa = db.session.query(EmpresaProprietaria).get(id)
     
-    empresa.Nome = Nome
-    empresa.Pais_de_origem = Descricao
-    empresa.Especialidade = Desenvolvedora_id
+    empresa.Nome = nome
+    empresa.Pais_de_origem = descricao
+    empresa.Especialidade = desenvolvedora_id
 
     db.session.commit()
 

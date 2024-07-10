@@ -25,24 +25,22 @@ def get_desenvolvedora(id: int) -> Desenvolvedora:
      
 
 def delete_desenvolvedora(id: int):
-    """
-    Delete funcionario by id stored in the database.
-
-    """
+    
     desenvolvedora = db.session.query(Desenvolvedora).get(id)
     db.session.delete(desenvolvedora)
     db.session.commit()
 
 def update_desenvolvedora(id: int, nome: str, pais_de_origem: str, especialidade: str) -> Desenvolvedora:
-    """
-    Insert a Funcionario in the database.
-    """
-    desenvolvedora = db.session.query(Desenvolvedora).get(id)
-    
-    desenvolvedora.Nome = nome
-    desenvolvedora.Pais_de_origem = pais_de_origem
-    desenvolvedora.Especialidade = especialidade
+    with db.session.begin():
+        desenvolvedora = db.session.query(Desenvolvedora).get(id)
+        if desenvolvedora:
+             if not nome is None and nome !='':
+                desenvolvedora.Nome = nome
+             if not pais_de_origem is None and pais_de_origem !='':
+                desenvolvedora.Pais_de_origem = pais_de_origem
+             if not especialidade is None and especialidade !='':
+                desenvolvedora.Especialidade = especialidade
 
-    db.session.commit()
+
 
     return desenvolvedora

@@ -21,6 +21,6 @@ class Desenvolvedora(Base):
         return {
             "id": self.id,
             "nome": self.Nome,
-            "pais de origem": self.Pais_de_origem,
-            "Especialidade": self.Especialidade
+            "pais_de_origem": self.Pais_de_origem,
+            "especialidade": self.Especialidade
         }

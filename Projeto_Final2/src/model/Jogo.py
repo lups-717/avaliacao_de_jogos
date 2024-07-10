@@ -26,7 +26,8 @@ class Jogo(Base):
         return {
             "id": self.id,
             "titulo": self.Titulo,
+            "descricao":self.Descricao,
             "genero": self.Genero,
-            "data de lancamento": self.Data_de_lancamento.strftime('%Y-%m-%d'),
-            "empresa Proprietaria id": self.Empresa_Proprietaria_id
+            "data_de_lancamento": self.Data_de_lancamento.strftime('%Y-%m-%d'),
+            "empresa_proprietaria_id": self.Empresa_Proprietaria_id
         }

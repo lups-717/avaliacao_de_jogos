@@ -9,7 +9,7 @@ from src.model.Base import db
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://projeto:p%40ssw0rd@localhost:3306/gamesreview'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:1234@localhost:3306/gamesreview'
     db.init_app(app)
 
     # Flask API

@@ -31,8 +31,11 @@ def update_usuario(id: int, nome: str, email: str, senha: str) -> Usuario:
     with db.session.begin():
         usuario = db.session.query(Usuario).get(id)
         if usuario:
-            usuario.Nome = nome
-            usuario.Email = email
-            usuario.Senha = senha
+            if not nome is None and nome !='':
+                usuario.Nome = nome
+            if not email is None and email !='':
+                usuario.Email = email
+            if not senha is None and senha != '':
+                usuario.Senha = senha
         
     return usuario

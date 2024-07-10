@@ -32,19 +32,20 @@ def delete_avaliacao(id: int):
     """
     avaliacao = db.session.query(Avaliacao).get(id)
     db.session.delete(avaliacao)
-    db.session.commit()
+
 
 def update_avaliacao(id: int, pontuacao: str, comentario: str, jogo_id: int, usuario_id:int) -> Avaliacao:
-    """
-    Insert a Funcionario in the database.
-    """
-    avaliacao = db.session.query(Avaliacao).get(id)
-    
-    avaliacao.Pontuacao = pontuacao
-    avaliacao.Comentario = comentario
-    avaliacao.jogo_id = jogo_id
-    avaliacao.Usuario_id = usuario_id
+    with db.session.begin():
+        avaliacao = db.session.query(Avaliacao).get(id)
+        if avaliacao:
+            if not pontuacao is None and pontuacao !='':
+                avaliacao.Pontuacao = pontuacao
+            if not comentario is None and comentario !='':
+                avaliacao.Comentario = comentario
+            if not jogo_id is None and jogo_id !='':
+                avaliacao.Jogo_id = jogo_id
+            if not usuario_id is None and usuario_id !='':
+                avaliacao.Usuario_id = usuario_id
 
-    db.session.commit()
 
     return avaliacao

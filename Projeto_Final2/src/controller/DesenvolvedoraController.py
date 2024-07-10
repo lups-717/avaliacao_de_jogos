@@ -8,7 +8,7 @@ from marshmallow import Schema, ValidationError, fields, validates
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm.exc import UnmappedInstanceError
 from src.repositories.DesenvolvedoraRepository import get_desenvolvedoras, get_desenvolvedora, delete_desenvolvedora, update_desenvolvedora
-from src.service.DesenvolvedoraService import add_Desenvolvedora
+from src.service.DesenvolvedoraService import addDesenvolvedora
 
 
 class DesenvolvedoraResponseSchema(Schema):
@@ -23,12 +23,12 @@ class DesenvolvedoraRequestSchema(Schema):
     pais_de_origem = fields.Str()
     especialidade = fields.Str()
     
-    @validates("nome")
-    def validate_name(self, value):
-        if not re.match(pattern=r"^[a-zA-Z0-9_]+$", string=value):
-             raise ValidationError(
-                 "Value must contain only alphanumeric and underscore characters."
-            )
+    # @validates("nome")
+    # def validate_name(self, value):
+    #     if not re.match(pattern=r"^[a-zA-Z0-9_]+$", string=value):
+    #          raise ValidationError(
+    #              "Value must contain only alphanumeric and underscore characters."
+    #         )
         
 class DesenvolvedoraItem(MethodResource, Resource):
     @marshal_with(DesenvolvedoraResponseSchema)
@@ -54,7 +54,8 @@ class DesenvolvedoraItem(MethodResource, Resource):
     @marshal_with(DesenvolvedoraResponseSchema)
     def put(self, desenvolvedora_id, **kwargs):
         try:
-            desenvolvedora = update_desenvolvedora(**kwargs, id=desenvolvedora_id)
+            kwargs['id'] = desenvolvedora_id
+            desenvolvedora = update_desenvolvedora(**kwargs)
             return desenvolvedora, 200
         except (OperationalError, IntegrityError):
             abort(500, message="Internal Server Error")
@@ -78,7 +79,7 @@ class DesenvolvedoraLista(MethodResource, Resource):
     @marshal_with(DesenvolvedoraResponseSchema)
     def post(self, **kwargs):
         try:
-            desenvolvedora = add_Desenvolvedora(**kwargs)
+            desenvolvedora = addDesenvolvedora(**kwargs)
             return desenvolvedora, 201
         except IntegrityError as err:
             abort(500, message=str(err.__context__))

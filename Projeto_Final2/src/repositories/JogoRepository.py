@@ -39,17 +39,20 @@ def delete_jogo(id: int):
     db.session.commit()
 
 def update_jogo(id: int, titulo: str, descricao: str, genero: str, data_de_lancamento:Date, empresa_proprietaria_id:int) -> Jogo:
-    """
-    Insert a Funcionario in the database.
-    """
-    jogo = db.session.query(Jogo).get(id)
-    
-    jogo.Titulo = titulo
-    jogo.Descricao = descricao
-    jogo.Genero = genero
-    jogo.Data_de_lancamento = data_de_lancamento
-    jogo.Empresa_Proprietaria_id = empresa_proprietaria_id
+    with db.session.begin():
+        jogo = db.session.query(Jogo).get(id)
+        if jogo:
+            if not titulo is None and titulo !='':
+                jogo.Titulo = titulo
+            if not descricao is None and descricao !='':
+                jogo.Descricao = descricao
+            if not genero is None and genero !='':
+                jogo.Genero = genero
+            if not data_de_lancamento is None and data_de_lancamento !='':
+                jogo.Data_de_lancamento = data_de_lancamento
+            if not empresa_proprietaria_id is None and empresa_proprietaria_id !='':
+                jogo.Empresa_Proprietaria_id = empresa_proprietaria_id
 
-    db.session.commit()
+    
 
     return jogo

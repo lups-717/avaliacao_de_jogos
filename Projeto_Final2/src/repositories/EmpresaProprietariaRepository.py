@@ -39,15 +39,16 @@ def delete_empresa(id: int):
     db.session.commit()
 
 def update_empresa(id: int, nome: str, descricao: str, desenvolvedora_id: int) -> EmpresaProprietaria:
-    """
-    Insert a Funcionario in the database.
-    """
-    empresa = db.session.query(EmpresaProprietaria).get(id)
-    
-    empresa.Nome = nome
-    empresa.Pais_de_origem = descricao
-    empresa.Especialidade = desenvolvedora_id
+    with db.session.begin():
+        empresa = db.session.query(EmpresaProprietaria).get(id)
+        if empresa:
+            if not nome is None and nome !='':
+                empresa.Nome = nome
+            if not descricao is None and descricao !='':
+                empresa.Descricao = descricao
+            if not desenvolvedora_id is None and desenvolvedora_id !='':
+                empresa.Desenvolvedora_id = desenvolvedora_id
 
-    db.session.commit()
+        
 
     return empresa

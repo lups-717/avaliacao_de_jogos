@@ -24,13 +24,6 @@ class EmpresaRequestSchema(Schema):
     descricao = fields.Str()
     desenvolvedora_id = fields.Int()
 
-    
-    # @validates("nome")
-    # def validate_name(self, value):
-    #     if not re.match(pattern=r"^[a-zA-Z0-9_]+$", string=value):
-    #         raise ValidationError(
-    #             "Value must contain only alphanumeric and underscore characters."
-    #         )
         
 class EmpresaItem(MethodResource, Resource):
     @marshal_with(EmpresaResponseSchema)
@@ -56,7 +49,8 @@ class EmpresaItem(MethodResource, Resource):
     @marshal_with(EmpresaResponseSchema)
     def put(self, empresa_id, **kwargs):
         try:
-            empresa = update_empresa(**kwargs, id=empresa_id)
+            kwargs['id'] = empresa_id
+            empresa = update_empresa(**kwargs)
             return empresa, 200
         except (OperationalError, IntegrityError):
             abort(500, message="Internal Server Error")

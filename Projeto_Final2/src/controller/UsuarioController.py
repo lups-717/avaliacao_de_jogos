@@ -8,7 +8,7 @@ from marshmallow import Schema, ValidationError, fields, validates
 from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm.exc import UnmappedInstanceError
 from src.repositories.UsuarioRepository import get_usuarios, get_usuario, delete_usuario, update_usuario
-from src.service.UsuarioService import add_usuario
+from src.service.UsuarioService import addUsuario
 
 
 # Esquema de resposta do usuário
@@ -81,7 +81,7 @@ class UsuarioLista(MethodResource, Resource):
     @marshal_with(UsuarioResponseSchema)
     def post(self, **kwargs):
             try:
-                usuario = add_usuario(**kwargs)
+                usuario = addUsuario(**kwargs)
                 return usuario, 201
             except IntegrityError as err:
                 abort(500, message=str(err.__context__))

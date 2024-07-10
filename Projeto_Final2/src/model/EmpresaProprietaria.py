@@ -25,6 +25,6 @@ class EmpresaProprietaria(Base):
         return {
             "id": self.id,
             "nome": self.Nome,
-            "Descricao": self.Descricao,
+            "descricao": self.Descricao,
             "desenvolvedora_id": self.Desenvolvedora_id
         }

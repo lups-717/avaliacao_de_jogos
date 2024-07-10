@@ -27,12 +27,6 @@ class JogoRequestSchema(Schema):
     empresa_proprietaria_id = fields.Int()
 
     
-    @validates("titulo")
-    def validate_name(self, value):
-        if not re.match(pattern=r"^[a-zA-Z0-9_]+$", string=value):
-            raise ValidationError(
-                "Value must contain only alphanumeric and underscore characters."
-            )
 class JogoItem(MethodResource, Resource):
     @marshal_with(JogoResponseSchema)
     def get(self, jogo_id):
@@ -57,7 +51,8 @@ class JogoItem(MethodResource, Resource):
     @marshal_with(JogoResponseSchema)
     def put(self, jogo_id, **kwargs):
         try:
-            jogo = update_jogo(**kwargs, id=jogo_id)
+            kwargs['id'] = jogo_id
+            jogo = update_jogo(**kwargs)
             return jogo, 200
         except (OperationalError, IntegrityError):
             abort(500, message="Internal Server Error")

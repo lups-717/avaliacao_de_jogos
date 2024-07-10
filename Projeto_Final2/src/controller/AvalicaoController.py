@@ -24,13 +24,7 @@ class AvaliacaoRequestSchema(Schema):
     comentario= fields.Str()
     jogo_id = fields.Int()
     usuario_id = fields.Int()
-    
-    # @validates("Nome")
-    # def validate_name(self, value):
-    #     if not re.match(pattern=r"^[a-zA-Z0-9_]+$", string=value):
-    #         raise ValidationError(
-    #             "Value must contain only alphanumeric and underscore characters."
-    #         )
+   
         
 class AvaliacaoItem(MethodResource, Resource):
     @marshal_with(AvaliacaoResponseSchema)
@@ -56,7 +50,8 @@ class AvaliacaoItem(MethodResource, Resource):
     @marshal_with(AvaliacaoResponseSchema)
     def put(self, avaliacao_id, **kwargs):
         try:
-            avaliacao = update_avaliacao(**kwargs, id=avaliacao_id)
+            kwargs['id'] = avaliacao_id
+            avaliacao = update_avaliacao(**kwargs)
             return avaliacao, 200
         except (OperationalError, IntegrityError):
             abort(500, message="Internal Server Error")
